@@ -1,3 +1,110 @@
+class Stick {
+  /**
+   * Class to control a stick
+   * @param {HTMLElement} stick Stick element
+   */
+  constructor (stick) {
+    // Stick element
+    this.stick = stick
+  }
+
+  /**
+   * Get center
+   * @return {HTMLElement} Center of the stick
+   * @private
+   * @memberof stick
+   * @instance
+   * @since 1.1.0
+   * @example
+   * const center = stick.getCenter();
+   * console.log(center);
+   * // => <div class="joycon__stickCenter"></div>
+   */
+  getCenter () {
+    return this.jc.querySelector('.joycon__stickCenter')
+  }
+
+  /**
+   * Reset position
+   * @return {void}
+   * @private
+   * @memberof joycon
+   * @instance
+   * @since 1.1.0
+   * @example
+   * joycon.resetPosition();
+   * // The joycon will be in the center
+   */
+  resetPosition () {
+    this.jc.classList.remove('joycon__left');
+    this.jc.classList.remove('joycon__right');
+    this.jc.classList.remove('joycon__top');
+    this.jc.classList.remove('joycon__bottom');
+  }
+
+  /**
+   * Go to left
+   * @return {void}
+   * @private
+   * @memberof joycon
+   * @instance
+   * @since 1.1.0
+   * @example
+   * joycon.left();
+   * // The joycon will go to the left
+   */
+  left () {
+    this.jc.classList.add('joycon__left');
+  }
+
+  /**
+   * Go to top
+   * @return {void}
+   * @private
+   * @memberof joycon
+   * @instance
+   * @since 1.1.0
+   * @example
+   * joycon.top();
+   * // The joycon will go to the top
+   */
+  top () {
+    this.jc.classList.add('joycon__top');
+  }
+
+  /**
+   * Go to right
+   * @return {void}
+   * @private
+   * @memberof joycon
+   * @instance
+   * @since 1.1.0
+   * @example
+   * joycon.right();
+   * // The joycon will go to the right
+   */
+  right () {
+    this.jc.classList.add('joycon__right');
+  }
+
+  /**
+   * Go to bottom
+   * @return {void}
+   * @private
+   * @memberof joycon
+   * @instance
+   * @since 1.1.0
+   * @example
+   * joycon.bottom();
+   * // The joycon will go to the bottom
+   */
+   bottom () {
+    this.jc.classList.add('joycon__bottom');
+  }
+}
+
+
+
 // Update background
 const updateBackground = () => {
   const bgCtn = document.createElement('div');

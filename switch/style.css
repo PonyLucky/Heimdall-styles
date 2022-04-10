@@ -582,6 +582,24 @@ body {
   transition: 0.2s;
 }
 
+/* Positions of joycon */
+.joycon__left {
+  left: 40%;
+  top: 50%;
+}
+.joycon__right {
+  left: 60%;
+  top: 50%;
+}
+.joycon__top {
+  left: 50%;
+  top: 40%;
+}
+.joycon__bottom {
+  left: 50%;
+  top: 60%;
+}
+
 /****CUSTOM FOR HEIMDALL****/
 
 /* Searchbar */

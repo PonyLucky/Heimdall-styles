@@ -1,0 +1,683 @@
+/* Remove the background image of #app */
+#app {
+  background-image: none !important;
+}
+
+/* Set the new background in CSS */
+*{
+  margin: 0px;
+  padding: 0px;
+}
+
+.bg-ctn{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #2e3234;  
+  background: -webkit-linear-gradient(to left, #50565a, #2e3234);  
+  width: 100%;
+  height:100vh;
+}
+
+.bg-circles{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.bg-circles li{
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: animate 25s linear infinite;
+  bottom: -150px;
+}
+.bg-circles li:nth-child(1){
+  left: 25%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 0s;
+}
+.bg-circles li:nth-child(2){
+  left: 10%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 2s;
+  animation-duration: 12s;
+}
+.bg-circles li:nth-child(3){
+  left: 70%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 4s;
+}
+.bg-circles li:nth-child(4){
+  left: 40%;
+  width: 60px;
+  height: 60px;
+  animation-delay: 0s;
+  animation-duration: 18s;
+}
+.bg-circles li:nth-child(5){
+  left: 65%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 0s;
+}
+.bg-circles li:nth-child(6){
+  left: 75%;
+  width: 110px;
+  height: 110px;
+  animation-delay: 3s;
+}
+.bg-circles li:nth-child(7){
+  left: 35%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 7s;
+}
+.bg-circles li:nth-child(8){
+  left: 50%;
+  width: 25px;
+  height: 25px;
+  animation-delay: 15s;
+  animation-duration: 45s;
+}
+.bg-circles li:nth-child(9){
+  left: 20%;
+  width: 15px;
+  height: 15px;
+  animation-delay: 2s;
+  animation-duration: 35s;
+}
+.bg-circles li:nth-child(10){
+  left: 85%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 0s;
+  animation-duration: 11s;
+}
+
+@keyframes animate {
+  0%{
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+  100%{
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+
+/*
+Credits: Christopher Kirk-Nielsen
+URL: https://css-art.com/nintendo-switch-in-css/
+------------------------------------------------
+The original code isn't mine. If you like it, please consider going on the original.
+*/
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-color: #2c2b28;
+  border-style: solid;
+  border-width: 0;
+}
+html, body {
+  height: 100%;
+  font-size: 16px;
+}
+body {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #333;
+  background-image: linear-gradient(42deg, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.25));
+  background-attachment: fixed;
+  overflow: hidden;
+}
+.switch {
+  position: relative;
+  width: 1em;
+  height: 0.4372em;
+  font-size: 90vmin;
+}
+.body {
+  position: absolute;
+  left: 13.75%;
+  top: 2%;
+  bottom: 0;
+  width: 72.5%;
+  border-width: 0.005em;
+  background-color: #515056;
+}
+.joycon {
+  position: absolute;
+  top: 0;
+  width: 14.45%;
+  height: 100%;
+  border-width: 0.005em;
+  box-shadow: inset 0 0.005em 0 rgba(0, 0, 0, 0.1), inset 0 -0.01em 0 rgba(0, 0, 0, 0.1), inset 0 -0.03em 0 rgba(0, 0, 0, 0.1);
+  animation: joyconSnap 0.75s ease-out backwards 1;
+}
+.joycon--left {
+  left: 0;
+  background-color: #5dc0e0;
+  border-radius: 0.0875em 0 0 0.0875em;
+  animation-delay: -0.25s;
+}
+.joycon--right {
+  right: 0;
+  background-color: #e77366;
+  border-radius: 0 0.0875em 0.0875em 0;
+}
+.joycon__sign {
+  position: absolute;
+  top: 0.0325em;
+  width: 0.02em;
+  height: 0.005em;
+  background: #2c2b28;
+}
+.joycon__sign--minus {
+  right: 0.01em;
+}
+.joycon__sign--plus {
+  position: absolute;
+  left: 0.01em;
+}
+.joycon__sign--plus::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  transform: rotate(90deg);
+}
+.joycon__stick {
+  position: absolute;
+  width: 0.07377em;
+  height: 0.07377em;
+  border-width: 0.005em;
+  border-radius: 50%;
+  background-color: #6b6b6d;
+  box-shadow: 0.005em -0.005em 0 0.0025em rgba(0, 0, 0, 0.1);
+}
+.joycon__stick::before, .joycon__stick::after {
+  content: '';
+  position: absolute;
+  left: calc(50% - 0.0025em);
+  top: 0;
+  width: 0.005em;
+  height: 100%;
+  background-color: #2c2b28;
+}
+.joycon__stick::after {
+  transform: rotate(90deg);
+}
+.joycon__stick--left {
+  left: 0.035em;
+  top: 0.07377em;
+}
+.joycon__stick--right {
+  right: 0.035em;
+  top: 0.1913em;
+}
+.joycon__stickCenter {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 80%;
+  height: 80%;
+  border-width: 0.005em;
+  border-radius: 50%;
+  background-color: #6b6b6d;
+  box-shadow: inset 0.0025em -0.0025em 0 rgba(255, 255, 255, 0.5);
+  z-index: 1;
+}
+.joycon__cross {
+  position: absolute;
+  width: 0.0875em;
+  height: 0.0875em;
+  transform: rotate(45deg);
+}
+.joycon__cross--left {
+  right: 0.02em;
+  top: 0.183em;
+}
+.joycon__cross--right {
+  left: 0.02em;
+  top: 0.0656em;
+}
+.joycon__button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 0.038em;
+  height: 0.038em;
+  border-width: 0.005em;
+  border-radius: 50%;
+  box-shadow: inset 0.0025em -0.0025em 0 rgba(255, 255, 255, 0.5);
+  transform: rotate(-45deg);
+}
+.joycon__cross--left .joycon__button {
+  background-color: #6b6b6d;
+}
+.joycon__cross--right .joycon__button {
+  background-color: #403e41;
+}
+.joycon__button--top {
+  left: 0;
+  top: 0;
+}
+.joycon__button--left {
+  left: 0;
+  bottom: 0;
+}
+.joycon__button--right {
+  right: 0;
+  top: 0;
+}
+.joycon__button--bottom {
+  right: 0;
+  bottom: 0;
+}
+.joycon__options {
+  position: absolute;
+  top: 0.3em;
+  width: 0.035em;
+  height: 0.035em;
+  border-width: 0.005em;
+  background-color: #6b6b6d;
+}
+.joycon__options--capture {
+  right: 0.025em;
+}
+.joycon__options--capture::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-color: #2c2b28;
+}
+.joycon__options--home {
+  left: 0.025em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.joycon__options--home::before, .joycon__options--home::after {
+  content: '';
+  transform: translateY(-0.001em);
+}
+.joycon__options--home::before {
+  width: 0;
+  height: 0;
+  border-width: 0 0.01em 0.01em 0.01em;
+  border-color: transparent transparent #2c2b28 transparent;
+}
+.joycon__options--home::after {
+  width: 50%;
+  height: 33%;
+  border-width: 0 0.0025em 0.0025em 0.0025em;
+}
+@keyframes joyconSnap {
+  from {
+    transform: translateY(-100%);
+  }
+}
+.arrow {
+  width: 0;
+  height: 0;
+}
+.arrow--up {
+  border-width: 0 0.0075em 0.01em 0.0075em;
+  border-color: transparent transparent #2c2b28 transparent;
+}
+.arrow--left {
+  border-width: 0.0075em 0.01em 0.0075em 0;
+  border-color: transparent #2c2b28 transparent transparent;
+}
+.arrow--right {
+  border-width: 0.0075em 0 0.0075em 0.01em;
+  border-color: transparent transparent transparent #2c2b28;
+}
+.arrow--down {
+  border-width: 0.01em 0.0075em 0 0.0075em;
+  border-color: #2c2b28 transparent transparent transparent;
+}
+.letter {
+  font-size: 0.015em;
+  line-height: 100%;
+  color: #c8c9cc;
+}
+.tablet, .body {
+  transition: transform 0.3s ease-out;
+}
+.tablet {
+  position: absolute;
+  left: 15%;
+  top: 0;
+  width: 70%;
+  height: 101%;
+  border-width: 0.005em;
+  background-color: #515056;
+  box-shadow: inset 0 -0.005em 0 rgba(0, 0, 0, 0.1);
+}
+.tablet__frame {
+  position: absolute;
+  left: 0.005em;
+  right: 0.005em;
+  top: 0.01em;
+  height: 92.5%;
+  border-width: 0.005em;
+  border-radius: 0.016em;
+  background-color: #403e41;
+  overflow: hidden;
+}
+.tablet__frame::before {
+  content: '';
+  position: absolute;
+  right: 0.0437em;
+  bottom: 0;
+  width: 0.0328em;
+  height: 0.005em;
+  background-color: #2c2b28;
+}
+.tablet__frame::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 30%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 0.5) 68%, transparent 68%, transparent 100%);
+  transform-origin: 0 0;
+  animation: tabletShine 0.75s linear 0.5s both 1;
+}
+.tablet__screen {
+  position: absolute;
+  left: 0.0437em;
+  right: 0.0437em;
+  top: 0.027em;
+  bottom: 0.027em;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  border-width: 0.005em;
+  border-radius: 0.005em;
+  background-color: #c8c9cc;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+@keyframes tabletShine {
+  0% {
+    transform: skewX(-30deg) translateX(-100%);
+  }
+  100% {
+    transform: skewX(-30deg) translateX(150%);
+  }
+}
+.grip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.25em;
+  z-index: 0;
+  overflow: visible;
+  width: 0.4372em;
+  height: 0.4372em;
+  margin: auto;
+  border-width: 0.005em;
+  border-radius: 0.0875em;
+  background-color: #403e41;
+  background: #403e41 linear-gradient(90deg, #2c2b28 30%, #403e41 0, #403e41 70%, #2c2b28 0);
+  transform: translateY(50vh);
+  transition: transform 0.3s ease-out;
+}
+.grip::before, .grip::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+  width: 32%;
+  height: 90%;
+  border-width: 0.005em;
+  border-radius: 50% / 25%;
+  background-color: #403e41;
+  transform-origin: 50% 100%;
+}
+.grip::before {
+  left: -32%;
+  transform: rotate(15deg);
+}
+.grip::after {
+  right: -32%;
+  transform: rotate(-15deg);
+}
+@media screen and (max-width: 767px) {
+  .tablet, .body {
+    transform: translateY(-0.25em);
+  }
+  .joycon--left {
+    animation: joyconLeftDetach 1s ease-out forwards;
+  }
+  .joycon--right {
+    animation: joyconRightDetach 1s ease-out 0.15s forwards;
+  }
+  .grip {
+    transform: translateY(0);
+    transition-delay: 0.25s;
+  }
+}
+@keyframes joyconLeftDetach {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(0) translateY(-0.25em) rotate(-9deg);
+  }
+  50% {
+    transform: translateX(0.275em) translateY(-0.25em);
+  }
+  100% {
+    transform: translateX(0.275em) translateY(0.25em);
+  }
+}
+@keyframes joyconRightDetach {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(0) translateY(-0.25em) rotate(9deg);
+  }
+  50% {
+    transform: translateX(-0.275em) translateY(-0.25em);
+  }
+  100% {
+    transform: translateX(-0.275em) translateY(0.25em);
+  }
+}
+
+/* Custom */
+body {
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.switch {
+  max-width: 100%;
+}
+
+.joycon__button {
+  cursor: pointer;
+}
+
+.joycon__button:active {
+  box-shadow: unset;
+}
+
+.joycon__sign:active {
+  background-color: #6b6b6d;
+}
+
+.joycon__options:active {
+  background-color: #2c2b28;
+}
+
+.joycon__options:active::after {
+  background-color: #6b6b6d;
+}
+
+.joycon__options:active::before {
+  border-color: transparent transparent #6b6b6d transparent;
+}
+
+.tablet__screen::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.tablet__screen::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.1);
+}
+.tablet__screen::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.2);
+}
+.tablet__screen::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.4);
+}
+.tablet__screen::-webkit-scrollbar-thumb:active {
+  background: rgba(0,0,0,0.9);
+}
+
+.joycon__stickCenter {
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
+#sortable .item {
+  background-color: #403e41 !important;
+  border: 3px solid transparent;
+  transition: 0.2s;
+}
+#sortable .item:hover {
+  border: 3px solid #2c2b28;
+  transition: 0.2s;
+}
+
+/****CUSTOM FOR HEIMDALL****/
+
+/* Searchbar */
+.searchform {
+  background: unset;
+  border-radius: unset;
+  box-shadow: unset;
+  border-top: unset;
+  border-bottom: unset;
+  margin: unset;
+}
+
+/* Searchbar container */
+#search-container {
+  background: unset;
+  border-radius: unset;
+  box-shadow: unset;
+}
+
+/* Select of websites to search from */
+.searchform select  {
+  display: none;
+}
+
+/* Search input */
+.searchform input[type="text"] {
+  display: block;
+  background-color: white;
+  border-radius: calc(51px / 2);
+  border: 3px solid #2c2b28;
+}
+.searchform input[type="text"]:focus-visible {
+  outline: none;
+}
+
+/* search button */
+.searchform button {
+  background-color: #5dc0e0;
+  height: 51px;
+  /* Border radius at right side */
+  border-radius: 0 calc(51px / 2) calc(51px / 2) 0;
+  transition: 0.2s ease-in-out;
+  border: 3px solid #2c2b28;
+}
+.searchform button:hover {
+  background-color: #e77366;
+  transition: 0.2s ease-in-out;
+}
+
+/* Icon of search button */
+.searchform button > svg {
+  fill: #414150;
+  width: calc(51px / 2);
+  height: calc(51px / 2);
+  margin: 0;
+  padding: 0;
+  margin-top: 3px;
+  fill: white;
+}
+
+/* List of pinned websites */
+#sortable .item {
+  width: auto;
+  padding-right: 0;
+  margin: 15px;
+}
+#sortable .item::after {
+  content: unset;
+}
+
+/* Icon for telling the user it is a link */
+#sortable .item .link > * {
+  display: none;
+}
+
+/* Title of the website */
+#sortable .details {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  #sortable {
+    padding: 0 10px !important;
+  }
+}
+
+/* Settings mode */
+.settings-mode {
+  overflow: auto;
+  -webkit-user-select: unset; /* Safari */        
+  -moz-user-select: unset; /* Firefox */
+  -ms-user-select: unset; /* IE10+/Edge */
+  user-select: unset; /* Standard */
+}
+
+.settings-mode .switch {
+  display: none;
+}

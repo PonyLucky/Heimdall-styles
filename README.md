@@ -19,3 +19,4 @@ Here is the list of all the styles I made for Heimdall:
 ![Example](/img/moving%20forms%20background.gif "Example")
 * **switch**: This one is a complete theme to make Heimdall looks like a Nintendo Switch. (+**moving forms background**).
 ![Example](/img/switch.gif "Example")
+![Example2](/img/switch2.gif "Example2")

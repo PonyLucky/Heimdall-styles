@@ -16,4 +16,7 @@ This will open a new tab where you can write your code.
 ## Styles
 Here is the list of all the styles I made for Heimdall:
 * **moving forms background**: There are multiples forms that are moving. This style is applied to the background of the form.
+![Example](/img/moving%20forms%20background.gif "Example")
 * **switch**: This one is a complete theme to make Heimdall looks like a Nintendo Switch.
+![Example](/img/switch.gif "Example")
+![Example2](/img/switch2.gif "Example2")

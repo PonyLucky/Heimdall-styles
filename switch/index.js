@@ -624,29 +624,40 @@ class Navigation {
   keysEvents () {
     // Key down
     document.addEventListener('keydown', (e) => {
+      const activeClass = 'active';
+      const grid = this.grid;
+      const active = grid.querySelector(`.${activeClass}`);
       switch (e.code) {
         case "ArrowUp":
           // Press up arrow
           this.sw.arrow.up.press(() => {
-            this.navigate('up');
+            if (active) {
+              this.navigate('up');
+            }
           });
           break;
         case "ArrowDown":
           // Press down arrow
           this.sw.arrow.down.press(() => {
-            this.navigate('down');
+            if (active || this.sw.search === document.activeElement) {
+              this.navigate('down');
+            }
           });
           break;
         case "ArrowLeft":
           // Press left arrow
           this.sw.arrow.left.press(() => {
-            this.navigate('left');
+            if (active) {
+              this.navigate('left');
+            }
           });
           break;
         case "ArrowRight":
           // Press right arrow
           this.sw.arrow.right.press(() => {
-            this.navigate('right');
+            if (active) {
+              this.navigate('right');
+            }
           });
           break;
         case "Escape":

@@ -529,7 +529,7 @@ body {
 }
 
 .joycon__button.pressed {
-  box-shadow: unset;
+  box-shadow: none;
 }
 
 .joycon__sign.pressed {
@@ -578,6 +578,7 @@ body {
 }
 #sortable .item a.link {
   border: 3px solid transparent;
+  transition: border-color 0.2s ease-out;
 }
 #sortable .item.active a.link {
   border-color: #2c2b28;

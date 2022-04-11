@@ -130,14 +130,14 @@ class Button {
   }
 
   /**
-   * Unpress the button
+   * Release the button
    * @return {void}
    * @private
    * @memberof button
    * @instance
    * @since 1.1.0
    */
-  unpress () {
+  release () {
     this.button.classList.remove('pressed');
   }
 
@@ -155,7 +155,7 @@ class Button {
       this.press(func);
     });
     this.button.addEventListener('mouseup', () => {
-      this.unpress();
+      this.release();
     });
   }
 }
@@ -452,8 +452,10 @@ class Navigation {
     this.sw = switchController;
     this.options = options;
     this.loop = options.loop || false;
-    this.grid = this.sw.items[0].parentElement;
+    this.grid = this.sw.items[0].parentElement.parentElement;
     this.items = this.sw.items;
+
+    this.keysEvents();
   }
 
   /**
@@ -467,16 +469,29 @@ class Navigation {
    */
   navigate (direction) {
     const activeClass = 'active';
-    const active = this.grid.querySelector(`.${activeClass}`);
-    const activeIndex = Array.from(this.grid.children).indexOf(active);
-    const gridNum = this.items.length;
-    const baseOffset = this.items[0].offsetTop;
-    const breakIndex = this.items.findIndex(item => item.offsetTop > baseOffset);
+    const grid = this.grid;
+    const active = grid.querySelector(`.${activeClass}`);
+    const activeIndex = Array.from(grid.children).indexOf(active);
+
+    const gridChildren = Array.from(grid.children).filter(child => child.classList.contains('item-container'));
+    const gridNum = gridChildren.length;
+    const baseOffset = gridChildren[0].offsetTop;
+    const breakIndex = gridChildren.findIndex(item => item.offsetTop > baseOffset);
     const numPerRow = (breakIndex === -1 ? gridNum : breakIndex);
 
     const updateActiveItem = (active, next, activeClass) => {
+      console.log(active, next, activeClass);
+
       active.classList.remove(activeClass);
-      next.classList.add(activeClass); 
+      next.classList.add(activeClass);
+      // Scroll into view
+      next.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest'
+      });
+      // Focus on next item
+      next.querySelector('a.link').focus();
     }
     
     const isTopRow = activeIndex <= numPerRow - 1;
@@ -486,22 +501,95 @@ class Navigation {
     
     switch (direction) {
       case "up":
-        if (!isTopRow)
-          updateActiveItem(active, this.items[activeIndex - numPerRow], activeClass);
+        if (active && !isTopRow) {
+          updateActiveItem(active, gridChildren[activeIndex - numPerRow], activeClass);
+        }
         break;
       case "down":
-        if (!isBottomRow)
-          updateActiveItem(active, this.items[activeIndex + numPerRow], activeClass);
+        if (active) {
+          if (!isBottomRow) {
+            updateActiveItem(active, gridChildren[activeIndex + numPerRow], activeClass);
+          }
+        }
+        else {
+          const nActive = gridChildren[0];
+          nActive.classList.add(activeClass);
+          // Focus on active item
+          nActive.querySelector('a.link').focus();
+        }
         break;  
       case "left":
-        if (!isLeftColumn)
-          updateActiveItem(active, this.items[activeIndex - 1], activeClass);
+        if (active && !isLeftColumn) {
+          updateActiveItem(active, gridChildren[activeIndex - 1], activeClass);
+        }
         break;   
       case "right":
-        if (!isRightColumn)
-          updateActiveItem(active, this.items[activeIndex + 1], activeClass);    
+        if (active && !isRightColumn) {
+          updateActiveItem(active, gridChildren[activeIndex + 1], activeClass);
+        }   
         break;
     }
+  }
+
+  /**
+   * Keys events
+   * @private
+   * @memberof Navigation
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  keysEvents () {
+    // Key down
+    document.addEventListener('keydown', (e) => {
+      switch (e.code) {
+        case "ArrowUp":
+          // Press up arrow
+          this.sw.arrow.up.press(() => {
+            this.navigate('up');
+          });
+          break;
+        case "ArrowDown":
+          // Press down arrow
+          this.sw.arrow.down.press(() => {
+            this.navigate('down');
+          });
+          break;
+        case "ArrowLeft":
+          // Press left arrow
+          this.sw.arrow.left.press(() => {
+            this.navigate('left');
+          });
+          break;
+        case "ArrowRight":
+          // Press right arrow
+          this.sw.arrow.right.press(() => {
+            this.navigate('right');
+          });
+          break;
+      }
+    });
+    // Key up
+    document.addEventListener('keyup', (e) => {
+      switch (e.code) {
+        case "ArrowUp":
+          // Release up arrow
+          this.sw.arrow.up.release();
+          break;
+        case "ArrowDown":
+          // Release down arrow
+          this.sw.arrow.down.release();
+          break;
+        case "ArrowLeft":
+          // Release left arrow
+          this.sw.arrow.left.release();
+          break;
+        case "ArrowRight":
+          // Release right arrow
+          this.sw.arrow.right.release();
+          break;
+      }
+    });
   }
 }
 
@@ -751,6 +839,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize switchController
     const switchController = new Switch(document.querySelector('.switch'));
+    // Initialize navigation
+    const navigation = new Navigation(switchController);
   }
   catch (e) {
     console.error(e);

@@ -115,7 +115,18 @@ const updateBackground = () => {
 
   for (let i = 0; i < 10; i++) {
     const bgCircle = document.createElement('li');
-    bgCircle.appendChild(createMario());
+
+    // Ramdom number between 0 and 1
+    const r = Math.random();
+    // If r is less than 0.5, append mario to bgCircle
+    if (r < 0.5) {
+      bgCircle.appendChild(createMario());
+    }
+    // Else append Luigi to bgCircle
+    else {
+      bgCircle.appendChild(createLuigi());
+    }
+
     bgCircles.appendChild(bgCircle);
   }
 
@@ -225,52 +236,10 @@ const setToSettingsMode = () => {
   }
 }
 
-// Make joycon__stick follow the mouse
-const moveJoyconStick = (e) => {
-  // Get the joycon stick
-  const joyconStick = document.querySelector(`.joycon--left .joycon__stickCenter`);
-
-  // If mouse is not in .tablet__screen
-  if (!e.target.closest('.tablet__screen')) {
-
-    // Get the mouse position
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    // Get the joycon stick position
-    const joyconStickX = joyconStick.getBoundingClientRect().left;
-    const joyconStickY = joyconStick.getBoundingClientRect().top;
-
-    // Get the rotation degrees
-    const rotationDegrees = Math.atan2(mouseX - joyconStickX, mouseY - joyconStickY) * (180 / Math.PI) * -1 + 180;
-
-    // We will change the position of the stick depending on the rotation degrees
-    // If the rotation degrees is between 45 and 135, we will move the stick to the right (so left = 60% and top = 50%)
-    // If the rotation degrees is between 135 and 225, we will move the stick to the bottom (so left = 50% and top = 60%)
-    // If the rotation degrees is between 225 and 315, we will move the stick to the left (so left = 40% and top = 50%)
-    // If the rotation degrees is between 315 and 45, we will move the stick to the top (so left = 50% and top = 40%)
-    if (rotationDegrees >= 45 && rotationDegrees <= 135) {
-      joyconStick.style.left = '60%';
-      joyconStick.style.top = '50%';
-    } else if (rotationDegrees >= 135 && rotationDegrees <= 225) {
-      joyconStick.style.left = '50%';
-      joyconStick.style.top = '60%';
-    } else if (rotationDegrees >= 225 && rotationDegrees <= 315) {
-      joyconStick.style.left = '40%';
-      joyconStick.style.top = '50%';
-    } else if (rotationDegrees >= 315 || rotationDegrees <= 45) {
-      joyconStick.style.left = '50%';
-      joyconStick.style.top = '40%';
-    }
-  }
-  else {
-    // Return the stick to the center
-    joyconStick.style.left = '50%';
-    joyconStick.style.top = '50%';
-  }
-}
-
-// Create mario
+/**
+ * Create mario.
+ * @returns {HTMLElement} Mario HTML element
+ */
 const createMario = () => {
   // Create a mario div and set its content
   const marioDiv = document.createElement('div');
@@ -300,14 +269,49 @@ const createMario = () => {
   return marioDiv;
 }
 
+/**
+ * Create Luigi
+ * @returns {HTMLElement} Luigi HTML element
+ */
+const createLuigi = () => {
+  // Create a luigi div and set its content
+  const luigiDiv = document.createElement('div');
+  luigiDiv.innerHTML = `<div class="luigi">
+    <div class="hat">
+      <div class="logo"><span></span><span></span></div>
+      <div class="peak"></div>
+    </div>
+    <div class="face">
+      <div id="overlay"></div>
+      <div class="brow"><span></span></div>
+      <div class="brow-right"><span></span></div>
+      <div class="nose"></div>
+      <div id="tash-l"></div>
+      <div id="tash-r"></div>
+      <div class="tash"></div>
+      <div class="eye-left"> <span> </span><span></span><span></span></div>
+      <div class="eye-right"><span> </span><span></span><span></span></div>
+      <div class="mouth"></div>
+      <div class="chin"></div>
+    </div>
+    <div id="hair-left"></div>
+    <div id="hair-right"></div>
+    <div id="ear-left"><span></span><span></span></div>
+    <div id="ear-right"><span></span><span></span></div>
+    <div class="hair-back" id="l"></div>
+    <div class="hair-back" id="r"></div>
+  </div>`;
+
+  return luigiDiv;
+}
+
 try {
   initSwitch();
   removeTooltips();
   updateSearchForm();
   updateBackground();
-  document.addEventListener('mousemove', moveJoyconStick);
   initMario();
 }
 catch {
-  setToSettingsMode();
+  // setToSettingsMode();
 }

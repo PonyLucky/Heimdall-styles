@@ -575,11 +575,10 @@ body {
 #sortable .item {
   background-color: #403e41 !important;
   border: 3px solid transparent;
-  transition: 0.2s;
 }
-#sortable .item:hover {
-  border: 3px solid #2c2b28;
-  transition: 0.2s;
+#sortable .item.active {
+  border-color: #2c2b28;
+  transition: border-color 0.2s ease-out;
 }
 
 /* Positions of joycon */
@@ -630,6 +629,7 @@ body {
   background-color: white;
   border-radius: calc(51px / 2);
   border: 3px solid #2c2b28;
+  caret-color: #515056;
 }
 .searchform input[type="text"]:focus-visible {
   outline: none;

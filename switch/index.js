@@ -204,6 +204,26 @@ const initSwitch = () => {
   container.appendChild(document.querySelector('.searchform'));
   // Move #sortable
   container.appendChild(document.querySelector('#sortable'));
+
+  // For each items in the sortable list
+  $('#sortable .item').each(function () {
+    // On hover
+    $(this).mouseover(function () {
+      // Remove .active from all items
+      $('#sortable .item').removeClass('active');
+
+      // Progressively add the class .active
+      $(this).addClass('active');
+    });
+    // On mouseout
+    $(this).mouseout(function () {
+      // Remove the class .active
+      $(this).removeClass('active');
+    });
+  });
+
+  // Focus on the search input
+  document.querySelector('.searchform input').focus();
 }
 
 // Remove all .tooltip elements

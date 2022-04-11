@@ -189,9 +189,9 @@ class Switch {
     // Button B
     const buttonB = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--bottom'));
     // Button X
-    const buttonX = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--left'));
+    const buttonX = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--top'));
     // Button Y
-    const buttonY = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--top'));
+    const buttonY = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--left'));
     // Option capture
     const optionCapture = new Button(this.switch.querySelector('.joycon__options--capture'));
     // Option home
@@ -229,6 +229,9 @@ class Switch {
 
     // Items
     this.items = document.querySelectorAll('#sortable .item');
+
+    // Search
+    this.search = document.querySelector('.switch .searchform input[type="text"]');
 
     // Bind events
     this.bindEvents();
@@ -478,10 +481,10 @@ class Navigation {
     const baseOffset = gridChildren[0].offsetTop;
     const breakIndex = gridChildren.findIndex(item => item.offsetTop > baseOffset);
     const numPerRow = (breakIndex === -1 ? gridNum : breakIndex);
+    // Get the number of items in the last row
+    const lastRowNum = gridNum % numPerRow || numPerRow;
 
     const updateActiveItem = (active, next, activeClass) => {
-      console.log(active, next, activeClass);
-
       active.classList.remove(activeClass);
       next.classList.add(activeClass);
       // Scroll into view
@@ -495,39 +498,118 @@ class Navigation {
     }
     
     const isTopRow = activeIndex <= numPerRow - 1;
-    const isBottomRow = activeIndex >= gridNum - numPerRow;
+    const isBottomRow = activeIndex >= gridNum - lastRowNum;
     const isLeftColumn = activeIndex % numPerRow === 0;
     const isRightColumn = activeIndex % numPerRow === numPerRow - 1 || activeIndex === gridNum - 1;
     
-    switch (direction) {
-      case "up":
-        if (active && !isTopRow) {
-          updateActiveItem(active, gridChildren[activeIndex - numPerRow], activeClass);
-        }
-        break;
-      case "down":
-        if (active) {
-          if (!isBottomRow) {
-            updateActiveItem(active, gridChildren[activeIndex + numPerRow], activeClass);
+    if (this.sw.search !== document. activeElement) {
+      switch (direction) {
+        case "up":
+          if (active) {
+            if (!isTopRow) {
+              const next = activeIndex - numPerRow
+              if (!isBottomRow) {
+                updateActiveItem(active, gridChildren[next], activeClass);
+              }
+              else {
+                // Get the index of the next item in the last row
+                const lastRowIndex = Math.ceil(activeIndex / lastRowNum) - 1;
+                // Get the position of the first item in the previous row
+                const prevRowIndex = gridNum - lastRowNum - numPerRow;
+
+                if (lastRowNum === numPerRow) {
+                  updateActiveItem(active, gridChildren[next], activeClass);
+                }
+                else {
+                  updateActiveItem(active, gridChildren[prevRowIndex + lastRowIndex], activeClass);
+                }
+              }
+            }
+            else {
+              // Focus on the search input
+              this.sw.search.focus();
+            }
           }
+          break;
+        case "down":
+          if (active) {
+            const next = activeIndex + numPerRow;
+            const isNextBottomRow = next >= gridNum - numPerRow;
+
+            if (!isBottomRow) {
+              // If the next item is in the last row
+              if (!isNextBottomRow) {
+                updateActiveItem(active, gridChildren[next], activeClass);
+              }
+              else {
+                // Get the number of items in the last row
+                const lastRowNum = gridNum % numPerRow || numPerRow;
+                // Get the index of the next item in the last row
+                const lastRowIndex = Math.floor(activeIndex / lastRowNum);
+                const nextIndex = gridNum - lastRowNum + lastRowIndex;
+
+                // If the number of items in the last row is equal to the number of items in row
+                if (lastRowNum === numPerRow) {
+                  updateActiveItem(active, gridChildren[next], activeClass);
+                }
+                else {
+                  updateActiveItem(active, gridChildren[nextIndex], activeClass);
+                }
+              }
+            }
+            else {
+              // Go up
+              this.navigate('up');
+            }
+          }
+          break;  
+        case "left":
+          if (active) {
+            if (!isLeftColumn) {
+              updateActiveItem(active, gridChildren[activeIndex - 1], activeClass);
+            }
+            else if (this.loop) {
+              // Get the position of the active item in the row
+              const activeRowIndex = activeIndex % numPerRow;
+              // Get the position of the last item in the row
+              let lastRowIndex = activeIndex + (numPerRow - activeRowIndex) - 1;
+
+              // If lastRowIndex is greater than the number of items in the grid, set it to the last item in the grid
+              if (lastRowIndex > gridNum - 1) {
+                lastRowIndex = gridNum - 1;
+              }
+              updateActiveItem(active, gridChildren[lastRowIndex], activeClass);
+            }
+          }
+          break;   
+        case "right":
+          if (active) {
+            if (!isRightColumn) {
+              updateActiveItem(active, gridChildren[activeIndex + 1], activeClass);
+            }
+            else if (this.loop) {
+              // Get the position of the active item in the row
+              const activeRowIndex = activeIndex % numPerRow;
+              // Get the position of the first item in the row
+              const firstRowIndex = activeIndex - activeRowIndex;
+              updateActiveItem(active, gridChildren[firstRowIndex], activeClass);
+            }
+          }
+          break;
+      }
+    }
+    else {
+      if (direction === "down") {
+        const nActive = gridChildren[0];
+        nActive.classList.add(activeClass);
+        // Focus on active item
+        nActive.querySelector('a.link').focus();
+
+        // For the number of items in row
+        for (let i = 1; i < numPerRow + 1; i++) {
+          this.navigate("right");
         }
-        else {
-          const nActive = gridChildren[0];
-          nActive.classList.add(activeClass);
-          // Focus on active item
-          nActive.querySelector('a.link').focus();
-        }
-        break;  
-      case "left":
-        if (active && !isLeftColumn) {
-          updateActiveItem(active, gridChildren[activeIndex - 1], activeClass);
-        }
-        break;   
-      case "right":
-        if (active && !isRightColumn) {
-          updateActiveItem(active, gridChildren[activeIndex + 1], activeClass);
-        }   
-        break;
+      }
     }
   }
 
@@ -567,6 +649,28 @@ class Navigation {
             this.navigate('right');
           });
           break;
+        case "Escape":
+          // Press Home
+          this.sw.option.home.press();
+          // Focus on search input
+          this.sw.search.focus();
+          break;
+        case "Enter":
+          // Press A
+          this.sw.button.a.press();
+          break;
+        case "NumpadEnter":
+          // Press A
+          this.sw.button.a.press();
+          break;
+        case "Space":
+          // Press Y
+          this.sw.button.y.press();
+          break;
+        case "Backspace":
+          // Press B
+          this.sw.button.b.press();
+          break;
       }
     });
     // Key up
@@ -587,6 +691,26 @@ class Navigation {
         case "ArrowRight":
           // Release right arrow
           this.sw.arrow.right.release();
+          break;
+        case "Escape":
+          // Release Home
+          this.sw.option.home.release();
+          break;
+        case "Enter":
+          // Release A
+          this.sw.button.a.release();
+          break;
+        case "NumpadEnter":
+          // Release A
+          this.sw.button.a.release();
+          break;
+        case "Space":
+          // Release Y
+          this.sw.button.y.release();
+          break;
+        case "Backspace":
+          // Release B
+          this.sw.button.b.release();
           break;
       }
     });
@@ -840,7 +964,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize switchController
     const switchController = new Switch(document.querySelector('.switch'));
     // Initialize navigation
-    const navigation = new Navigation(switchController);
+    const navigation = new Navigation(switchController, {
+      loop: true,
+    });
   }
   catch (e) {
     console.error(e);

@@ -676,7 +676,14 @@ body {
 }
 
 #sortable {
-  padding: 0 10px !important;
+  padding: 0 20px !important;
+}
+
+/* If width lower than 788px */
+@media screen and (max-width: 788px) {
+  #sortable {
+    padding: 0 5px !important;
+  }
 }
 
 /* List of pinned websites */

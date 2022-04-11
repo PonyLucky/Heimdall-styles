@@ -1448,6 +1448,6 @@ body {
 }
 
 .bg-circles li .luigi {
-  height: 150%;
-  width: calc(150%/(1.25));
+  height: 85%;
+  width: calc(85%/(1.25));
 }

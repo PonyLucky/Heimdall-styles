@@ -1,6 +1,7 @@
 /* Remove the background image of #app */
 #app {
   background-image: none !important;
+  background-color: #2e3234;
 }
 
 /* Set the new background in CSS */

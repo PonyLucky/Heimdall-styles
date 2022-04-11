@@ -424,7 +424,7 @@ class Switch {
 
 
 // Update background
-const updateBackground = () => {
+const updateBackground = async () => {
   const bgCtn = document.createElement('div');
   bgCtn.classList.add('bg-ctn');
 
@@ -453,7 +453,7 @@ const updateBackground = () => {
 }
 
 // Initialize switch
-const initSwitch = () => {
+const initSwitch = async () => {
   // Create switchDiv element and set its content
   const switchDiv = document.createElement('div');
   switchDiv.innerHTML = `<div class="switch">
@@ -606,7 +606,7 @@ const createMario = () => {
     <div id="ear-right"><span></span><span></span></div>
   </div>`;
 
-  return marioDiv;
+  return marioDiv.cloneNode(true);
 }
 
 /**
@@ -645,15 +645,22 @@ const createLuigi = () => {
   return luigiDiv;
 }
 
-try {
-  initSwitch();
-  removeTooltips();
-  updateSearchForm();
-  updateBackground();
-}
-catch {
-  setToSettingsMode();
-}
+// On DOMContentLoaded
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await initSwitch();
+    removeTooltips();
+    updateSearchForm();
+    // After 1 second, update the background
+    setTimeout(() => {
+      updateBackground();
+    }, 2000);
 
-// Initialize switchController
-const switchController = new Switch(document.querySelector('.switch'));
+    // Initialize switchController
+    const switchController = new Switch(document.querySelector('.switch'));
+  }
+  catch (e) {
+    console.error(e);
+    setToSettingsMode();
+  }
+});

@@ -310,8 +310,7 @@ try {
   removeTooltips();
   updateSearchForm();
   updateBackground();
-  initMario();
 }
 catch {
-  // setToSettingsMode();
+  setToSettingsMode();
 }

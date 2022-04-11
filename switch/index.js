@@ -125,7 +125,6 @@ class Button {
    * @since 1.1.0
    */
   press (func = () => {}) {
-    console.log(this.button);
     this.button.classList.add('pressed');
     func();
   }
@@ -227,6 +226,9 @@ class Switch {
       capture: optionCapture,
       home: optionHome
     };
+
+    // Items
+    this.items = document.querySelectorAll('#sortable .item');
 
     // Bind events
     this.bindEvents();
@@ -422,6 +424,86 @@ class Switch {
   }
 }
 
+class Navigation {
+  /**
+   * Support for navigation of Switch
+   * @class
+   * @name Navigation
+   * @since 1.1.0
+   * @param {Switch} [switchController] - Switch
+   * @param {object} [options] - Options
+   */
+  constructor (switchController, options = {}) {
+    // Check if switchController is a Switch
+    if (!(switchController instanceof Switch)) {
+      throw new Error('switchController must be a Switch');
+    }
+
+    // Check if options is an object
+    if (typeof options !== 'object') {
+      throw new Error('options must be an object');
+    }
+
+    // Check if options.loop is a boolean
+    if (options.loop && typeof options.loop !== 'boolean') {
+      throw new Error('options.loop must be a boolean');
+    }
+
+    this.sw = switchController;
+    this.options = options;
+    this.loop = options.loop || false;
+    this.grid = this.sw.items[0].parentElement;
+    this.items = this.sw.items;
+  }
+
+  /**
+   * Navigate
+   * @public
+   * @memberof Navigation
+   * @instance
+   * @since 1.1.0
+   * @param {string} [direction] - Direction [up, down, left, right]
+   * @returns {void}
+   */
+  navigate (direction) {
+    const activeClass = 'active';
+    const active = this.grid.querySelector(`.${activeClass}`);
+    const activeIndex = Array.from(this.grid.children).indexOf(active);
+    const gridNum = this.items.length;
+    const baseOffset = this.items[0].offsetTop;
+    const breakIndex = this.items.findIndex(item => item.offsetTop > baseOffset);
+    const numPerRow = (breakIndex === -1 ? gridNum : breakIndex);
+
+    const updateActiveItem = (active, next, activeClass) => {
+      active.classList.remove(activeClass);
+      next.classList.add(activeClass); 
+    }
+    
+    const isTopRow = activeIndex <= numPerRow - 1;
+    const isBottomRow = activeIndex >= gridNum - numPerRow;
+    const isLeftColumn = activeIndex % numPerRow === 0;
+    const isRightColumn = activeIndex % numPerRow === numPerRow - 1 || activeIndex === gridNum - 1;
+    
+    switch (direction) {
+      case "up":
+        if (!isTopRow)
+          updateActiveItem(active, this.items[activeIndex - numPerRow], activeClass);
+        break;
+      case "down":
+        if (!isBottomRow)
+          updateActiveItem(active, this.items[activeIndex + numPerRow], activeClass);
+        break;  
+      case "left":
+        if (!isLeftColumn)
+          updateActiveItem(active, this.items[activeIndex - 1], activeClass);
+        break;   
+      case "right":
+        if (!isRightColumn)
+          updateActiveItem(active, this.items[activeIndex + 1], activeClass);    
+        break;
+    }
+  }
+}
 
 // Update background
 const updateBackground = async () => {
@@ -539,6 +621,16 @@ const initSwitch = async () => {
       // Remove the class .active
       this.classList.remove('active');
     });
+    // On focusin
+    items[i].addEventListener('focusin', function () {
+      // Remove the class .active
+      this.classList.add('active');
+    });
+    // On focusout
+    items[i].addEventListener('focusout', function () {
+      // Remove the class .active
+      this.classList.remove('active');
+    });
   }
   
 
@@ -651,7 +743,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await initSwitch();
     removeTooltips();
     updateSearchForm();
-    // After 1 second, update the background
+
+    // After 2 seconds, update the background
     setTimeout(() => {
       updateBackground();
     }, 2000);

@@ -524,7 +524,7 @@ body {
   max-width: 100%;
 }
 
-.joycon__button {
+.joycon__button, .joycon__sign, .joycon__options {
   cursor: pointer;
 }
 
@@ -574,12 +574,17 @@ body {
 }
 
 #sortable .item {
-  background-color: #403e41 !important;
+  background-color: rgba(0,0,0,0.40) !important;
+}
+#sortable .item a.link {
   border: 3px solid transparent;
 }
-#sortable .item.active {
+#sortable .item.active a.link {
   border-color: #2c2b28;
   transition: border-color 0.2s ease-out;
+}
+#sortable .item a.link:focus-visible {
+  outline: none;
 }
 
 /* Positions of joycon */
@@ -627,13 +632,18 @@ body {
 /* Search input */
 .searchform input[type="text"] {
   display: block;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.60);
   border-radius: calc(51px / 2);
   border: 3px solid #2c2b28;
   caret-color: #515056;
+  transition: background-color 0.2s ease-out;
 }
 .searchform input[type="text"]:focus-visible {
   outline: none;
+}
+.searchform input[type="text"]:focus {
+  background-color: white;
+  transition: background-color 0.2s ease-out;
 }
 
 /* search button */
@@ -645,9 +655,12 @@ body {
   transition: 0.2s ease-in-out;
   border: 3px solid #2c2b28;
 }
-.searchform button:hover {
+.searchform button:hover, .searchform button:focus {
   background-color: #e77366;
   transition: 0.2s ease-in-out;
+}
+.searchform button:focus-visible {
+  outline: none;
 }
 
 /* Icon of search button */

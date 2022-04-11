@@ -527,23 +527,23 @@ body {
   cursor: pointer;
 }
 
-.joycon__button:active {
+.joycon__button.pressed {
   box-shadow: unset;
 }
 
-.joycon__sign:active {
+.joycon__sign.pressed {
   background-color: #6b6b6d;
 }
 
-.joycon__options:active {
+.joycon__options.pressed {
   background-color: #2c2b28;
 }
 
-.joycon__options:active::after {
+.joycon__options.pressed::after {
   background-color: #6b6b6d;
 }
 
-.joycon__options:active::before {
+.joycon__options.pressed::before {
   border-color: transparent transparent #6b6b6d transparent;
 }
 

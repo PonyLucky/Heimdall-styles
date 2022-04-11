@@ -5,7 +5,9 @@ class Stick {
    */
   constructor (stick) {
     // Stick element
-    this.stick = stick
+    this.stick = stick;
+    // Center of stick
+    this.center = this.getCenter();
   }
 
   /**
@@ -21,7 +23,7 @@ class Stick {
    * // => <div class="joycon__stickCenter"></div>
    */
   getCenter () {
-    return this.jc.querySelector('.joycon__stickCenter')
+    return this.stick.querySelector('.joycon__stickCenter');
   }
 
   /**
@@ -36,10 +38,10 @@ class Stick {
    * // The joycon will be in the center
    */
   resetPosition () {
-    this.jc.classList.remove('joycon__left');
-    this.jc.classList.remove('joycon__right');
-    this.jc.classList.remove('joycon__top');
-    this.jc.classList.remove('joycon__bottom');
+    this.center.classList.remove('joycon__left');
+    this.center.classList.remove('joycon__right');
+    this.center.classList.remove('joycon__top');
+    this.center.classList.remove('joycon__bottom');
   }
 
   /**
@@ -54,7 +56,7 @@ class Stick {
    * // The joycon will go to the left
    */
   left () {
-    this.jc.classList.add('joycon__left');
+    this.center.classList.add('joycon__left');
   }
 
   /**
@@ -69,7 +71,7 @@ class Stick {
    * // The joycon will go to the top
    */
   top () {
-    this.jc.classList.add('joycon__top');
+    this.center.classList.add('joycon__top');
   }
 
   /**
@@ -84,7 +86,7 @@ class Stick {
    * // The joycon will go to the right
    */
   right () {
-    this.jc.classList.add('joycon__right');
+    this.center.classList.add('joycon__right');
   }
 
   /**
@@ -99,10 +101,323 @@ class Stick {
    * // The joycon will go to the bottom
    */
    bottom () {
-    this.jc.classList.add('joycon__bottom');
+    this.center.classList.add('joycon__bottom');
   }
 }
 
+class Button {
+  /**
+   * Class to control a button
+   * @param {HTMLElement} button Button element
+   */
+  constructor (button) {
+    // Button element
+    this.button = button;
+  }
+
+  /**
+   * Press the button
+   * @param {Function} func Function to execute when the button is pressed
+   * @return {void}
+   * @private
+   * @memberof button
+   * @instance
+   * @since 1.1.0
+   */
+  press (func = () => {}) {
+    console.log(this.button);
+    this.button.classList.add('pressed');
+    func();
+  }
+
+  /**
+   * Unpress the button
+   * @return {void}
+   * @private
+   * @memberof button
+   * @instance
+   * @since 1.1.0
+   */
+  unpress () {
+    this.button.classList.remove('pressed');
+  }
+
+  /**
+   * Bind click event
+   * @param {Function} func Function to execute when the button is pressed
+   * @returns {void}
+   * @private
+   * @memberof button
+   * @instance
+   * @since 1.1.0
+   */
+  bindClick (func = () => {}) {
+    this.button.addEventListener('click', () => {
+      this.press(func);
+    });
+  }
+}
+
+class Switch {
+  /**
+   * Class to control a switch
+   * @param {HTMLElement} switch Switch element
+   */
+  constructor (switchElement) {
+    // Switch element
+    this.switch = switchElement;
+    // Left stick
+    const leftStick = new Stick(this.switch.querySelector('.joycon__stick--left'));
+    // Right stick
+    const rightStick = new Stick(this.switch.querySelector('.joycon__stick--right'));
+    // Minus sign
+    const minus = new Button(this.switch.querySelector('.joycon__sign--minus'));
+    // Plus sign
+    const plus = new Button(this.switch.querySelector('.joycon__sign--plus'));
+    // Arrow up
+    const arrowUp = new Button(this.switch.querySelector('.joycon__cross--left .joycon__button--top'));
+    // Arrow down
+    const arrowDown = new Button(this.switch.querySelector('.joycon__cross--left .joycon__button--bottom'));
+    // Arrow left
+    const arrowLeft = new Button(this.switch.querySelector('.joycon__cross--left .joycon__button--left'));
+    // Arrow right
+    const arrowRight = new Button(this.switch.querySelector('.joycon__cross--left .joycon__button--right'));
+    // Button A
+    const buttonA = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--right'));
+    // Button B
+    const buttonB = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--bottom'));
+    // Button X
+    const buttonX = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--left'));
+    // Button Y
+    const buttonY = new Button(this.switch.querySelector('.joycon__cross--right .joycon__button--top'));
+    // Option capture
+    const optionCapture = new Button(this.switch.querySelector('.joycon__options--capture'));
+    // Option home
+    const optionHome = new Button(this.switch.querySelector('.joycon__options--home'));
+
+    // sign
+    this.sign = {
+      minus,
+      plus
+    };
+    // stick
+    this.stick = {
+      left: leftStick,
+      right: rightStick
+    };
+    // Arrow
+    this.arrow = {
+      up: arrowUp,
+      down: arrowDown,
+      left: arrowLeft,
+      right: arrowRight
+    };
+    // Button
+    this.button = {
+      a: buttonA,
+      b: buttonB,
+      x: buttonX,
+      y: buttonY
+    };
+    // Option
+    this.option = {
+      capture: optionCapture,
+      home: optionHome
+    };
+
+    // Bind events
+    this.bindEvents();
+  }
+
+  /**
+   * On click arrow up
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickArrowUp () {
+    this.arrow.up.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click arrow down
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickArrowDown () {
+    this.arrow.down.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click arrow left
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickArrowLeft () {
+    this.arrow.left.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click arrow right
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickArrowRight () {
+    this.arrow.right.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click button A
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickButtonA () {
+    this.button.a.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click button B
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+   onClickButtonB () {
+    this.button.b.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click button X
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+   onClickButtonX () {
+    this.button.x.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click button Y
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+   onClickButtonY () {
+    this.button.y.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * On click sign minus
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickSignMinus () {
+    this.sign.minus.press();
+  }
+
+  /**
+   * On click sign plus
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickSignPlus () {
+    this.sign.plus.press();
+  }
+
+  /**
+   * On click option capture
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickOptionCapture () {
+    this.option.capture.press();
+  }
+
+  /**
+   * On click option home
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  onClickOptionHome () {
+    this.option.home.press(() => {
+      // TODO : Add code here
+    });
+  }
+
+  /**
+   * Bind events
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @returns {void}
+   */
+  bindEvents () {
+    // Arrow events
+    this.arrow.up.bindClick(this.onClickArrowUp.bind(this));
+    this.arrow.down.bindClick(this.onClickArrowDown.bind(this));
+    this.arrow.left.bindClick(this.onClickArrowLeft.bind(this));
+    this.arrow.right.bindClick(this.onClickArrowRight.bind(this));
+    // Button events
+    this.button.a.bindClick(this.onClickButtonA.bind(this));
+    this.button.b.bindClick(this.onClickButtonB.bind(this));
+    this.button.x.bindClick(this.onClickButtonX.bind(this));
+    this.button.y.bindClick(this.onClickButtonY.bind(this));
+    // Sign events
+    this.sign.minus.bindClick(this.onClickSignMinus.bind(this));
+    this.sign.plus.bindClick(this.onClickSignPlus.bind(this));
+    // Option events
+    this.option.capture.bindClick(this.onClickOptionCapture.bind(this));
+    this.option.home.bindClick(this.onClickOptionHome.bind(this));
+  }
+}
 
 
 // Update background
@@ -205,22 +520,24 @@ const initSwitch = () => {
   // Move #sortable
   container.appendChild(document.querySelector('#sortable'));
 
-  // For each items in the sortable list
-  $('#sortable .item').each(function () {
+  const items = document.querySelectorAll('#sortable .item');
+  // For each items
+  for (let i = 0; i < items.length; i++) {
     // On hover
-    $(this).mouseover(function () {
+    items[i].addEventListener('mouseover', function () {
       // Remove .active from all items
-      $('#sortable .item').removeClass('active');
+      items.forEach(item => item.classList.remove('active'));
 
-      // Progressively add the class .active
-      $(this).addClass('active');
+      // Add .active to the current item
+      this.classList.add('active');
     });
     // On mouseout
-    $(this).mouseout(function () {
+    items[i].addEventListener('mouseout', function () {
       // Remove the class .active
-      $(this).removeClass('active');
+      this.classList.remove('active');
     });
-  });
+  }
+  
 
   // Focus on the search input
   document.querySelector('.searchform input').focus();
@@ -334,3 +651,6 @@ try {
 catch {
   setToSettingsMode();
 }
+
+// Initialize switchController
+const switchController = new Switch(document.querySelector('.switch'));

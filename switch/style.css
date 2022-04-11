@@ -661,11 +661,15 @@ body {
   fill: white;
 }
 
+#sortable {
+  padding: 0 10px !important;
+}
+
 /* List of pinned websites */
 #sortable .item {
   width: auto;
   padding-right: 0;
-  margin: 15px;
+  margin: 14px;
 }
 #sortable .item::after {
   content: unset;
@@ -679,12 +683,6 @@ body {
 /* Title of the website */
 #sortable .details {
   display: none;
-}
-
-@media screen and (max-width: 767px) {
-  #sortable {
-    padding: 0 10px !important;
-  }
 }
 
 /* Settings mode */

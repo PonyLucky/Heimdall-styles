@@ -152,8 +152,11 @@ class Button {
    * @since 1.1.0
    */
   bindClick (func = () => {}) {
-    this.button.addEventListener('click', () => {
+    this.button.addEventListener('mousedown', () => {
       this.press(func);
+    });
+    this.button.addEventListener('mouseup', () => {
+      this.unpress();
     });
   }
 }

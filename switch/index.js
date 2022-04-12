@@ -902,15 +902,15 @@ const initSwitch = async () => {
     // On hover
     items[i].addEventListener('mouseover', function () {
       // Remove .active from all items
-      items.forEach(item => item.classList.remove('active'));
+      items.forEach(item => item.classList.remove('hover'));
 
       // Add .active to the current item
-      this.classList.add('active');
+      this.classList.add('hover');
     });
     // On mouseout
     items[i].addEventListener('mouseout', function () {
       // Remove the class .active
-      this.classList.remove('active');
+      this.classList.remove('hover');
     });
     // On focusin
     items[i].addEventListener('focusin', function () {

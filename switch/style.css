@@ -580,7 +580,7 @@ body {
   border: 3px solid transparent;
   transition: border-color 0.2s ease-out;
 }
-#sortable .item.active a.link {
+#sortable .item.active a.link, #sortable .item.hover a.link {
   border-color: #2c2b28;
   transition: border-color 0.2s ease-out;
 }

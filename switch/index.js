@@ -119,7 +119,7 @@ class Button {
    * Press the button
    * @param {Function} func Function to execute when the button is pressed
    * @return {void}
-   * @private
+   * @public
    * @memberof button
    * @instance
    * @since 1.1.0
@@ -145,16 +145,52 @@ class Button {
    * Bind click event
    * @param {Function} func Function to execute when the button is pressed
    * @returns {void}
-   * @private
+   * @public
    * @memberof button
    * @instance
    * @since 1.1.0
    */
   bindClick (func = () => {}) {
+    // Click events
     this.button.addEventListener('mousedown', () => {
       this.press(func);
     });
     this.button.addEventListener('mouseup', () => {
+      this.release();
+    });
+    // Touch events
+    this.button.addEventListener('touchstart', () => {
+      this.press(func);
+    });
+    this.button.addEventListener('touchend', () => {
+      this.release();
+    });
+  }
+
+  /**
+   * Bind click after event
+   * @param {Function} func Function to execute when the button is pressed
+   * @returns {void}
+   * @public
+   * @memberof button
+   * @instance
+   * @since 1.1.0
+   */
+  bindClickAfter (func = () => {}) {
+    // Click events
+    this.button.addEventListener('mousedown', () => {
+      this.press();
+    });
+    this.button.addEventListener('mouseup', () => {
+      func();
+      this.release();
+    });
+    // Touch events
+    this.button.addEventListener('touchstart', () => {
+      this.press();
+    });
+    this.button.addEventListener('touchend', () => {
+      func();
       this.release();
     });
   }
@@ -238,6 +274,33 @@ class Switch {
   }
 
   /**
+   * Update active item
+   * @return {void}
+   * @private
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   */
+  updateActiveItem () {
+    // Get all sections
+    const sections = this.switch.querySelectorAll('#sortable section.item-container');
+    // Get the selected section
+    let selectedSection;
+    for (let i = 0; i < sections.length; i++) {
+      if (sections[i].classList.contains('active')) {
+        selectedSection = sections[i];
+        break;
+      }
+    }
+    if (selectedSection) {
+      // After 10 ms, focus on the selected item
+      setTimeout(() => {
+        selectedSection.querySelector('a.link').focus();
+      }, 10);
+    }
+  }
+
+  /**
    * On click arrow up
    * @private
    * @memberof switch
@@ -246,9 +309,9 @@ class Switch {
    * @returns {void}
    */
   onClickArrowUp () {
-    this.arrow.up.press(() => {
-      // TODO : Add code here
-    });
+    this.nav.navigate("up");
+    // Update active item
+    this.updateActiveItem();
   }
 
   /**
@@ -260,9 +323,9 @@ class Switch {
    * @returns {void}
    */
   onClickArrowDown () {
-    this.arrow.down.press(() => {
-      // TODO : Add code here
-    });
+    this.nav.navigate("down");
+    // Update active item
+    this.updateActiveItem();
   }
 
   /**
@@ -274,9 +337,9 @@ class Switch {
    * @returns {void}
    */
   onClickArrowLeft () {
-    this.arrow.left.press(() => {
-      // TODO : Add code here
-    });
+    this.nav.navigate("left");
+    // Update active item
+    this.updateActiveItem();
   }
 
   /**
@@ -288,9 +351,9 @@ class Switch {
    * @returns {void}
    */
   onClickArrowRight () {
-    this.arrow.right.press(() => {
-      // TODO : Add code here
-    });
+    this.nav.navigate("right");
+    // Update active item
+    this.updateActiveItem();
   }
 
   /**
@@ -302,9 +365,7 @@ class Switch {
    * @returns {void}
    */
   onClickButtonA () {
-    this.button.a.press(() => {
-      // TODO : Add code here
-    });
+    document.activeElement.click();
   }
 
   /**
@@ -316,9 +377,7 @@ class Switch {
    * @returns {void}
    */
    onClickButtonB () {
-    this.button.b.press(() => {
-      // TODO : Add code here
-    });
+    // TODO : Add code here
   }
 
   /**
@@ -330,9 +389,7 @@ class Switch {
    * @returns {void}
    */
    onClickButtonX () {
-    this.button.x.press(() => {
-      // TODO : Add code here
-    });
+    // TODO : Add code here
   }
 
   /**
@@ -344,9 +401,7 @@ class Switch {
    * @returns {void}
    */
    onClickButtonY () {
-    this.button.y.press(() => {
-      // TODO : Add code here
-    });
+    // TODO : Add code here
   }
 
   /**
@@ -394,9 +449,8 @@ class Switch {
    * @returns {void}
    */
   onClickOptionHome () {
-    this.option.home.press(() => {
-      // TODO : Add code here
-    });
+    // Focus on search
+    this.search.focus();
   }
 
   /**
@@ -408,6 +462,7 @@ class Switch {
    * @returns {void}
    */
   bindEvents () {
+    ///// Click
     // Arrow events
     this.arrow.up.bindClick(this.onClickArrowUp.bind(this));
     this.arrow.down.bindClick(this.onClickArrowDown.bind(this));
@@ -419,11 +474,24 @@ class Switch {
     this.button.x.bindClick(this.onClickButtonX.bind(this));
     this.button.y.bindClick(this.onClickButtonY.bind(this));
     // Sign events
-    this.sign.minus.bindClick(this.onClickSignMinus.bind(this));
-    this.sign.plus.bindClick(this.onClickSignPlus.bind(this));
+    this.sign.minus.bindClickAfter(this.onClickSignMinus.bind(this));
+    this.sign.plus.bindClickAfter(this.onClickSignPlus.bind(this));
     // Option events
-    this.option.capture.bindClick(this.onClickOptionCapture.bind(this));
-    this.option.home.bindClick(this.onClickOptionHome.bind(this));
+    this.option.capture.bindClickAfter(this.onClickOptionCapture.bind(this));
+    this.option.home.bindClickAfter(this.onClickOptionHome.bind(this));
+  }
+
+  /**
+   * Set navigation Object
+   * @public
+   * @memberof switch
+   * @instance
+   * @since 1.1.0
+   * @param {Navigation} nav - Navigation Object
+   * @returns {void}
+   */
+  setNav (nav) {
+    this.nav = nav;
   }
 }
 
@@ -978,6 +1046,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const navigation = new Navigation(switchController, {
       loop: true,
     });
+    // Set nav of switch controller
+    switchController.setNav(navigation);
   }
   catch (e) {
     console.error(e);

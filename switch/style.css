@@ -719,6 +719,11 @@ body {
   display: none;
 }
 
+/* Source code */
+.settings-mode pre {
+  max-height: 500px;
+}
+
 /*****MARIO******/
 :root {
   --mario-size: 50;
